@@ -1,5 +1,6 @@
 package br.com.senac.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +13,10 @@ public class EstudanteDTO {
 	
 	@Getter
 	@Setter
+	@NotNull
 	private String nome;
 	
-	
+	@NotNull
 	private String email;
 	
 	

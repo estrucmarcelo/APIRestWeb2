@@ -28,6 +28,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("estudantes")
@@ -59,7 +60,7 @@ public class EstudanteResource {
 												value = ExampleValues.exemploEstudante)})
 					)
 			
-					EstudanteDTO estudanteDTO) {
+					@Valid EstudanteDTO estudanteDTO) {
 		Estudante estudante = mapper.map(estudanteDTO, Estudante.class);
 		estudante = estudanteService.salvar(estudante);
 		EstudanteDTO novoEstudante = mapper.map(estudante, EstudanteDTO.class);

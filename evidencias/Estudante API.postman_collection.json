@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "b71c2e24-f4a1-43cf-bd9c-c69648e8ed63",
+		"name": "Estudante API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23580197"
+	},
+	"item": [
+		{
+			"name": "Gerenciamento de Estudante",
+			"item": [
+				{
+					"name": "Verifica se tem estudantes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verifica se o cadastro de estudantes não foi feito ainda\", function(){\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"    pm.expect(pm.response.json()).to.eql([]);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/estudantes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estudantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "incluir estudante",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verifica se o estudante foi criado com sucesso\", function(){\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"    pm.expect(pm.response.json().email).is.not.null;\r",
+									"    response = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"idEstudante\",response.id);\r",
+									"\r",
+									"    \r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"nome\": \"Lucas\",\r\n        \"email\": \"lucas@gmail.com\",\r\n        \"sobreNome\": \"Silva\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/estudantes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estudantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar estudantes",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => {console.info(\"Esperando 2 segundos para chamar\")}, 2000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/estudantes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estudantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar estudante",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Estudante alterado com sucesso\", function(){\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"nome\": \"Luccas\",\r\n        \"email\": \"luccas@gmail.com\",\r\n        \"sobreNome\": \"Silva\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/estudantes/{{idEstudante}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estudantes",
+								"{{idEstudante}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifica campo nome",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verifica status endpoint lista estudantes\", function(){\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200])\r",
+									"})\r",
+									"\r",
+									"res = pm.response.json();\r",
+									"\r",
+									"pm.test(\"O campo nome não pode ser vazio\"), function(){\r",
+									"    res.forEach(function(field){\r",
+									"        if(field.nome == \"Lucas\"){\r",
+									"            pm.expect(field.value).is.not.null\r",
+									"        }\r",
+									"    })\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/estudantes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estudantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar pelo estudante",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var schema = {\r",
+									"  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"nome\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"sobreNome\": {\r",
+									"      \"type\": \"string\"\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\",\r",
+									"    \"nome\",\r",
+									"    \"email\",\r",
+									"    \"sobreNome\"\r",
+									"  ]\r",
+									"}\r",
+									"\r",
+									"\r",
+									"var response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Validando a estrutura do body\", function(){\r",
+									"    pm.expect(tv4.validate(response,schema)).to.be.true;\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time é menor que 500 ms\", function(){\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/estudantes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"estudantes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "idEstudante",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
