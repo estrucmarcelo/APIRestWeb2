@@ -1,9 +1,11 @@
 package br.com.senac.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor
 public class EstudanteDTO {
 
 	
